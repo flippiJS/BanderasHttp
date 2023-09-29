@@ -1,5 +1,4 @@
-import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { BanderasService } from '../banderas.service';
 
@@ -8,30 +7,33 @@ import { BanderasService } from '../banderas.service';
   templateUrl: './bandera.component.html',
   styleUrls: ['./bandera.component.css']
 })
-export class BanderaComponent implements OnInit {
+export class BanderaComponent implements OnInit, OnDestroy {
 
-  misBanderas:any[]|undefined;
-  misPaises:Observable<any>|undefined;
-  constructor(private servBandea: BanderasService, private http :HttpClient) {
-    
-   }
-   bandera:string="";
+  misBanderas: any[] | undefined;
+  misPaises: Observable<any> | undefined;
+  bandera: string = "";
+  subsripcionTodos: any;
+
+  constructor(private banderaService: BanderasService) { }
+
   ngOnInit(): void {
-    this.servBandea.todos().subscribe(
-      banderas=>{
-        console.info(banderas);  
-      this.misBanderas = banderas; 
-    }  );
-    
-    this.misPaises = this.servBandea.todos();
-    
+   this.subsripcionTodos = this.banderaService.todos()
+      .subscribe(banderas => {
+        console.info(banderas);
+        this.misBanderas = banderas;
+      });
+
+    this.misPaises = this.banderaService.todos();
   }
 
-  buscarPais(nombre:string){
-    this.servBandea.pais(nombre).subscribe(t=>
-        this.bandera = t[0].flags.png
-      )
+  buscarPais(nombre: string) {
+    this.banderaService.pais(nombre).subscribe(t =>
+      this.bandera = t[0].flags.png
+    )
+  }
 
+  ngOnDestroy(): void {
+    this.subsripcionTodos.unsubscribe();
   }
 
 }

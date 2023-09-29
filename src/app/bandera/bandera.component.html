@@ -1,17 +1,15 @@
+BANDERA SELECCIONADA
+<img width="50px" [src]="bandera" >
 
-<img [src]="bandera" >
-
-<!-- <div *ngFor="let bandera of misBanderas ">
-
+<!--
+<div *ngFor="let bandera of misBanderas">
     {{bandera.name.common}}
+    <img width="50px" [src]="bandera.flags.png" >
+</div> 
+-->
 
-
-</div> -->
-
-<div *ngFor="let bandera of misPaises | async ">
-
-    <input type="button" [value]="bandera.name.common"
-    (click)="buscarPais(bandera.name.common)"> 
-
-
+<div *ngFor="let bandera of misPaises | async">
+    {{bandera.name.common}}
+    <img width="50px" [src]="bandera.flags.png" >
+    <input type="button" [value]="bandera.name.common" (click)="buscarPais(bandera.name.common)"> 
 </div>

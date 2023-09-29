@@ -1,20 +1,22 @@
-import { Component } from '@angular/core';
-import { AngularFirestore } from '@angular/fire/compat/firestore';
-import { Observable } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { EjemploService } from './servicios/ejemplo.service';
 
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.css']
 })
-export class AppComponent {
+export class AppComponent implements OnInit {
   title = 'firebase';
-  items= [];
+  items = [];
   /**
    *
    */
-  constructor() {    
-   
-    
+  constructor(public ejemploService: EjemploService) { }
+
+  ngOnInit() {
+    this.ejemploService.iniciar(0);
+
+    this.ejemploService.sumar();
   }
 }
